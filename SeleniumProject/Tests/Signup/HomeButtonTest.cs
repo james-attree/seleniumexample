@@ -1,47 +1,22 @@
-﻿using System;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
+using SeleniumProject.Pages;
 
 namespace SeleniumProject.Tests.Signup
 {
-    class HomeButtonTest : ITest
+    class HomeButtonTest : Test
     {
-        public ETestResult Result { get; protected set; }
-        public IWebDriver Driver { get; protected set; }
+        public HomeButtonTest(IWebDriver driver) : base(driver) { }
 
-        public HomeButtonTest(IWebDriver driver)
+        public override void Run()
         {
-            Driver = driver;
-            Result = ETestResult.Failed;
-        }
+            HomePage homePage = new HomePage(Driver);
 
-        public void Run()
-        {
-            try
+            // Check that it has the correct text
+            if(homePage.HomeButton.Text == "Home")
             {
-                // Get the Home Button element
-                IWebElement homeButton = Driver.FindElement(By.Id("bb_home"));
-
-                // Check that it has the correct text
-                if(homeButton.Text == "Home")
-                {
-                    // If so, make this test pass
-                    Result = ETestResult.Passed;
-                }
+                // If so, make this test pass
+                Result = ETestResult.Passed;
             }
-            catch (Exception e)
-            {
-                Console.WriteLine("Exception in test: " + e.Message);
-            }
-        }
-
-        public void SetUp()
-        {
-            Driver.Url = "https://widgitonline.com";
-        }
-
-        public void Shutdown()
-        {
-            // No need for a shutdown
         }
     }
 }
